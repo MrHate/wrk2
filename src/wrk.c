@@ -260,7 +260,7 @@ void *thread_main(void *arg) {
     size_t length = 0;
 
     if (!cfg.dynamic) {
-        script_request(thread->L, &request, &length);
+        script_request(thread->L, &request, &length, 0);
     }
 
     double throughput = (thread->throughput / 1000000.0) / thread->connections;
@@ -613,7 +613,7 @@ static void socket_writeable(aeEventLoop *loop, int fd, void *data, int mask) {
     }
 
     if (!c->written && cfg.dynamic) {
-        script_request(thread->L, &c->request, &c->length);
+        script_request(thread->L, &c->request, &c->length, c->fd);
     }
 
     char  *buf = c->request + c->written;
